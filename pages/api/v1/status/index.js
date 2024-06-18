@@ -11,7 +11,10 @@ async function status(request, response) {
   );
   const { max_connections } = databaseMaxConnectionsResult.rows[0];
 
-  const databaseOpenedConnectionsResult = await database.query({text: 'SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;', values: [databaseName]});
+  const databaseOpenedConnectionsResult = await database.query({
+    text: "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;",
+    values: [databaseName],
+  });
 
   const openedConnections = databaseOpenedConnectionsResult.rows[0].count;
 
@@ -21,7 +24,7 @@ async function status(request, response) {
       database: {
         version: server_version,
         max_connections: parseInt(max_connections),
-        opened_connections: openedConnections
+        opened_connections: openedConnections,
       },
     },
   });
