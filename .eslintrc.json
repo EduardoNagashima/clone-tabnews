@@ -5,7 +5,8 @@
     "consistent-return": 2,
     "indent": [1, 2],
     "no-else-return": 1,
-    "semi": [1, "always"]
+    "semi": [1, "always"],
+    "react/react-in-jsx-scope": "off"
   },
   "plugins": ["babel", "react", "react-hooks"],
   "parserOptions": {
