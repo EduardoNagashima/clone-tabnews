@@ -20,7 +20,6 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.4.4",
-    "globals": "^15.8.0",
     "next": "^13.1.6",
     "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.3",
