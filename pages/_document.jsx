@@ -1,7 +1,7 @@
 import React from "react";
 import { Html, Head, Main, NextScript } from "next/document";
 
-function Document({ Component, pageProps }) {
+function Document() {
   return (
     <Html>
       <Head>

@@ -1,4 +1,4 @@
-import { profileDescriptions } from "pages/portifolio/constants/index.js";
+import { profileDescriptions } from "pages/portifolio/constants";
 import { useEffect, useState, useRef } from "react";
 
 export default function Header() {
