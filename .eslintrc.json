@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended", "plugin:babel/recommended"],
+  "extends": "eslint:recommended",
   "ignorePatterns": ["*test*.js"],
   "rules": {
     "consistent-return": 2,
