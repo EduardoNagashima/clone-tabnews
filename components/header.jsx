@@ -1,41 +1,47 @@
-import { useEffect, useState } from "react";
+import { profileDescriptions } from "pages/portifolio/constants";
+import { useEffect, useState, useRef } from "react";
 
 export default function Header() {
   const [index, setIndex] = useState(0);
-  const texts = ["Desenvolvedor", "Programador", "Pai de pet"];
+  const subtitleRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((index) => (index + 1) % texts.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+    const handleAnimationEnd = () => {
+      setIndex((prevIndex) => (prevIndex + 1) % profileDescriptions.length);
+    };
+
+    const spanElement = subtitleRef.current;
+
+    if (spanElement) {
+      spanElement.addEventListener("animationiteration", handleAnimationEnd);
+    }
+
+    return () => {
+      if (spanElement) {
+        spanElement.removeEventListener(
+          "animationiteration",
+          handleAnimationEnd,
+        );
+      }
+    };
+  }, [subtitleRef.current]);
 
   return (
     <header>
-      <div className="w-full relative h-[100vh] flex bg-gradient-custom">
+      <div className="w-full relative h-[100vh] flex">
         <div className="flex m-auto flex-col">
           <div className="text-center">
             <h1 className="text-7xl font-bold font-serif">Eduardo Nagashima</h1>
-            <span className="text-3xl font-work font-medium textGradient">
-              {texts[index]}
-            </span>
+            <div className="w-[100vw] flex justify-center overflow-hidden">
+              <span
+                ref={subtitleRef}
+                className="text-3xl font-work font-semibold animate-slide"
+              >
+                {profileDescriptions[index]}
+              </span>
+            </div>
           </div>
         </div>
-        {/* TODO ALIGN THIS CORRECLY ON THE CENTER */}
-        <span
-          style={{
-            fontSize: "50px",
-            textAlign: "center",
-            color: "#fff",
-            position: "absolute",
-            bottom: "10px",
-            left: "50%",
-          }}
-          class="material-symbols-outlined"
-        >
-          keyboard_arrow_down
-        </span>
       </div>
     </header>
   );

@@ -4,18 +4,17 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        wiggle: {
-          '0%, 100%': { transform: 'rotate(-3deg)' },
-          '50%': { transform: 'rotate(3deg)' },
-        }
-      },
-      colors: {
-        customRed: {
-          DEFAULT: "rgb(196, 12, 12)",
-          gradient:
-            "linear-gradient(45deg, rgba(196, 12, 12, 1) 0%, rgba(255, 101, 0, 1) 100%)",
+        slide: {
+          "0%": { transform: "translateX(-100vw)", opacity: 0 },
+          "50%": { transform: "translateX(0vw)", opacity: 1 },
+          "100%": { transform: "translateX(100vw)", opacity: 0 },
         },
       },
+      animation: {
+        slide: "slide 4s ease-in-out infinite",
+        wiggle: "wiggle 1s ease-in-out infinite",
+      },
+      colors: {},
       fontFamily: {
         sans: ["Roboto", "sans-serif"],
         work: ["Work Sans", "sans-serif"],
