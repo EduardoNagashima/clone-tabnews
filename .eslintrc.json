@@ -1,6 +1,9 @@
 {
   "extends": "eslint:recommended",
   "ignorePatterns": ["*test*.js"],
+  "env": {
+    "node": true
+  },
   "rules": {
     "consistent-return": 2,
     "indent": [1, 2],
