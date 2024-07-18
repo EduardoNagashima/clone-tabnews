@@ -1,10 +1,10 @@
 /* eslint-disable */
+import Header from "components/Header";
 import React from "react";
-import Header from "components/header";
 
 export default function Portifolio() {
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidde">
       <Header />
       <div className="w-full border-t-2 border-neutral-400" />
       <section>
