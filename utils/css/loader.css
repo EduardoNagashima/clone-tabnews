@@ -1,0 +1,46 @@
+.loader {
+  display: flex;
+  align-items: center;
+}
+
+.bar {
+  display: inline-block;
+  width: 5px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.758);
+  border-radius: 10px;
+  animation: scale-up4 1s linear infinite;
+}
+
+.bar:nth-child(2) {
+  height: 40px;
+  margin: 0 5px;
+  animation-delay: 0.25s;
+}
+
+.bar:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+@keyframes scale-up4 {
+  20% {
+    background-color: #ffffff;
+    transform: scaleY(1.5);
+  }
+
+  40% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @keyframes scale-up4 {
+    20% {
+      background-color: rgb(86, 86, 86);
+      transform: scaleY(1.5);
+    }
+    40% {
+      transform: scaleY(1);
+    }
+  }
+}

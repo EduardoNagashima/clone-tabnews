@@ -1,16 +1,32 @@
+import Card from "components/Card";
 import Header from "components/Header";
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 export default function Portifolio() {
+  const [profileName, setProfileName] = useState("eduardonagashima");
+
+  const debounceSetProfile = useCallback(
+    setTimeout(() => {
+      setProfileName(profileName);
+    }, 3000),
+    [],
+  );
+
+  const onChangeName = (e) => {
+    debounceSetProfile(e.target.value);
+  };
+
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden h-full dark:text-slate-200 dark:bg-slate-900 transition-theme">
       <Header />
-      <div className="w-full border-t-2 border-neutral-400" />
       <section>
         <div>
-          <h1 className="font-sans font-normal text-center text-4xl">
-            Olá, bem vindo ao meu site
-          </h1>
+          {/* <input
+            className="dark:bg-gray-200 bg-blue-900 dark:text-gray-500 text-gray-100 w-3/4 p-2 rounded"
+            type="text"
+            onChange={onChangeName}
+          /> */}
+          <Card profileName={profileName} />
         </div>
       </section>
     </main>

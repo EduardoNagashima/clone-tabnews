@@ -20,6 +20,9 @@ module.exports = {
         work: ["Work Sans", "sans-serif"],
       },
     },
+    screen: {
+      md: "756px",
+    },
   },
   variants: {
     extend: {},

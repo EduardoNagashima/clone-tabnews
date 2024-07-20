@@ -19,9 +19,7 @@ export default function ThemeSwitcher({ className }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const time = new Date().toISOString().split("T")[1];
-
-      if (theme === "dark" || time > "21:00") {
+      if (theme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
         document.documentElement.classList.remove("dark");

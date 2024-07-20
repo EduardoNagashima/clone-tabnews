@@ -29,7 +29,7 @@ export default function Header() {
   }, [subtitleRef.current]);
 
   return (
-    <div className="w-full relative h-[100vh] flex flex-col dark:text-slate-200 dark:bg-slate-900 transition-theme">
+    <div className="w-full relative h-[100vh] flex flex-col">
       <ThemeSwitcher className={"flex justify-end p-5"} />
       <div className="flex m-auto flex-col">
         <div className="text-center">
