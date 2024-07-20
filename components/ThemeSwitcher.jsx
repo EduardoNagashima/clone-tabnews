@@ -1,11 +1,15 @@
-/* eslint-disable */
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
+ThemeSwitcher.propTypes = {
+  className: PropTypes.string,
+};
 
 export default function ThemeSwitcher({ className }) {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && localStorage) {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme) {
         setTheme(savedTheme);

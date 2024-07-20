@@ -1,5 +1,5 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "ignorePatterns": ["*test*.js"],
   "env": {
     "node": true
@@ -19,5 +19,24 @@
       "experimentalObjectRestSpread": true,
       "jsx": true
     }
-  }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.jsx"],
+      "env": {
+        "browser": true
+      }
+    },
+    {
+      "files": ["pages/**/*.jsx", "components/**/*.jsx"],
+      "env": {
+        "browser": true
+      }
+    }
+  ]
 }
