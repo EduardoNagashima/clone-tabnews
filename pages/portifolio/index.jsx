@@ -1,20 +1,20 @@
 import Card from "components/Card";
 import Header from "components/Header";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 export default function Portifolio() {
-  const [profileName, setProfileName] = useState("eduardonagashima");
+  const [profileName] = useState("eduardonagashima");
 
-  const debounceSetProfile = useCallback(
-    setTimeout(() => {
-      setProfileName(profileName);
-    }, 3000),
-    [],
-  );
+  // const debounceSetProfile = useCallback(
+  //   setTimeout(() => {
+  //     setProfileName(profileName);
+  //   }, 3000),
+  //   [],
+  // );
 
-  const onChangeName = (e) => {
-    debounceSetProfile(e.target.value);
-  };
+  // const onChangeName = (e) => {
+  //   debounceSetProfile(e.target.value);
+  // };
 
   return (
     <main className="overflow-hidden h-full dark:text-slate-200 dark:bg-slate-900 transition-theme">
