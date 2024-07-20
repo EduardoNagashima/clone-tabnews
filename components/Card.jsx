@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 
@@ -10,6 +10,8 @@ export default function Card({ profileName }) {
     bio: "Desenvolvedor de Software",
     public_repos: 0,
   });
+  const [inView, setInView] = useState(false);
+  const cardRef = useRef(null);
 
   useEffect(() => {
     setLoading(true);
@@ -28,8 +30,31 @@ export default function Card({ profileName }) {
     fetchData();
   }, [profileName]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+    });
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
+  const cardAnimation = inView
+    ? "transform md:translate-x-0 opacity-100"
+    : "transform md:-translate-x-10 opacity-0";
+
   return (
-    <div className="dark:bg-gray-100 bg-blue-950 rounded shadow-xl max-w-[35rem] min-w-[16.2rem] h-auto p-7 m-6">
+    <div
+      ref={cardRef}
+      className={`transition-transform duration-1000 dark:bg-gray-100 bg-blue-950 rounded shadow-xl max-w-[35rem] min-w-[16.2rem] h-auto p-7 m-6 ${cardAnimation}`}
+    >
       {loading ? (
         <div className="flex items-center justify-center h-32">
           <div className="loader">

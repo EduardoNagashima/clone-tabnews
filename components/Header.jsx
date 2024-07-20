@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { profileDescriptions } from "utils";
 import { useEffect, useState, useRef } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
@@ -33,11 +32,13 @@ export default function Header() {
       <ThemeSwitcher className={"flex justify-end p-5"} />
       <div className="flex m-auto flex-col">
         <div className="text-center">
-          <h1 className="text-7xl font-bold font-serif">Eduardo Nagashima</h1>
+          <h1 className="md:text-7xl font-bold font-serif text-6xl">
+            Eduardo Nagashima
+          </h1>
           <div className="w-[100vw] flex justify-center overflow-hidden">
             <span
               ref={subtitleRef}
-              className="text-3xl font-work font-semibold animate-slide"
+              className="md:text-3xl text-2xl font-work font-semibold animate-slide"
             >
               {profileDescriptions[index]}
             </span>
