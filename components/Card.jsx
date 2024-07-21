@@ -23,16 +23,16 @@ export default function Card({ className, animationside, children }) {
 
   const animation = useMemo(() => {
     switch (animationside) {
-      case "left":
-        return "transform -translate-x-80 opacity-100";
-      case "right":
-        return "transform translate-x-80 opacity-100";
-      case "top":
-        return "transform -translate-y-80 opacity-100";
-      case "bottom":
-        return "transform translate-y-80 opacity-100";
-      default:
-        return "transform -translate-x-80 opacity-100";
+    case "left":
+      return "transform -translate-x-80 opacity-100";
+    case "right":
+      return "transform translate-x-80 opacity-100";
+    case "top":
+      return "transform -translate-y-80 opacity-100";
+    case "bottom":
+      return "transform translate-y-80 opacity-100";
+    default:
+      return "transform -translate-x-80 opacity-100";
     }
   }, [animationside]);
 
@@ -51,6 +51,7 @@ export default function Card({ className, animationside, children }) {
 }
 
 Card.propTypes = {
+  className: PropTypes.string,
   animationside: PropTypes.string,
   children: PropTypes.node,
 };
