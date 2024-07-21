@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MainContext } from "context/context";
+import { MainContext } from "context";
 import { useContext, useEffect, useState } from "react";
 
 export default function ProfileContent() {
