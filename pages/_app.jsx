@@ -1,4 +1,4 @@
-import { ContextProvider } from "context/context";
+import { ContextProvider } from "context";
 import "./global.css";
 import React from "react";
 
