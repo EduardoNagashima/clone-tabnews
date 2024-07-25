@@ -13,27 +13,32 @@ export default async function migrations(request, response) {
     migrationsTable: "pgmigrations",
   };
 
-  if (request.method === "GET") {
-    const pendingMigrations = await migrationRunner(defaultMigrationOptions);
-
+  try {
+    switch (request.method) {
+    case "GET": {
+      const pendingMigrations = await migrationRunner(defaultMigrationOptions);
+  
+      return response.status(200).json(pendingMigrations);
+    }
+    case "POST": {
+      const migrateMigrations = await migrationRunner({
+        ...defaultMigrationOptions,
+        dryRun: false,
+      });
+  
+      if (migrateMigrations.length > 0) {
+        return response.status(201).json(migrateMigrations);
+      }
+  
+      return response.status(200).json(migrateMigrations);
+    }
+    default:
+      return response.status(405).end();
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error('Erro ao fazer a requisiçao.');
+  } finally {
     await dbClient.end();
-    return response.status(200).json(pendingMigrations);
   }
-
-  if (request.method === "POST") {
-    const migrateMigrations = await migrationRunner({
-      ...defaultMigrationOptions,
-      dryRun: false,
-    });
-
-    await dbClient.end();
-    
-    if (migrateMigrations.length > 0) {
-      return response.status(201).json(migrateMigrations);
-    } 
-
-    return response.status(200).json(migrateMigrations);
-  }
-
-  return response.status(405).end();
 }
