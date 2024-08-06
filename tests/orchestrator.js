@@ -5,12 +5,15 @@ export default async function waitForAllServices() {
 
     async function waitForWebService(){
         return retry(fetchStatusPage, {
-            retries: 100
+            retries: 100,
+            maxTimeout: 1000
         })
 
         async function fetchStatusPage(){
            const response = await fetch('http://localhost:3000/api/v1/status');
-           await response.json()
+           if (response.status !== 200 ) {
+            throw new Error();
+           }
         }
     }
 }
