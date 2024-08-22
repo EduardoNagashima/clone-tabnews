@@ -2,11 +2,11 @@ name: Automated tests
 
 on: pull_request
 
-jobs: 
+jobs:
   jest:
-    name: Jest Ubuntu 
+    name: Jest Ubuntu
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
