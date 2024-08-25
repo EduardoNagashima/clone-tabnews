@@ -30,7 +30,9 @@ async function query(queryObject) {
   return result;
 }
 
-export default {
+const database = {
   query,
   getNewClient,
 };
+
+export default database;

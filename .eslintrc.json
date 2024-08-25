@@ -1,5 +1,11 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jest/recommended",
+    "next/core-web-vitals",
+    "prettier"
+  ],
   "ignorePatterns": ["*test*.js"],
   "env": {
     "node": true
@@ -11,7 +17,6 @@
     "semi": [1, "always"],
     "react/react-in-jsx-scope": "off"
   },
-  "plugins": ["babel", "react", "react-hooks"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
