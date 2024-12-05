@@ -1,6 +1,5 @@
+import { useEffect, useRef, useState } from "react";
 import { profileDescriptions } from "utils";
-import { useEffect, useState, useRef } from "react";
-import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
   const [index, setIndex] = useState(0);
@@ -29,7 +28,6 @@ export default function Header() {
 
   return (
     <div className="w-full relative h-[100vh] flex flex-col">
-      <ThemeSwitcher className={"flex justify-end p-5"} />
       <div className="flex m-auto flex-col">
         <div className="text-center">
           <h1 className="md:text-7xl font-bold font-serif text-6xl">
