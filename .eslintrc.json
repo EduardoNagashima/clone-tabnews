@@ -12,7 +12,7 @@
   },
   "rules": {
     "consistent-return": 2,
-    "indent": [1, 2],
+    "indent": "off",
     "no-else-return": 1,
     "semi": [1, "always"],
     "react/react-in-jsx-scope": "off"
