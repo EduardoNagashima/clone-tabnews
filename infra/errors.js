@@ -5,7 +5,7 @@ export class InternalServerError extends Error {
     });
     this.name = "InternalServerError";
     this.action = "Entre em contato com o suporte.";
-    this.status_code = statusCode || 500;
+    this.statusCode = statusCode || 500;
   }
 
   toJSON() {
@@ -13,7 +13,43 @@ export class InternalServerError extends Error {
       name: this.name,
       message: this.message,
       action: this.action,
-      status_code: this.status_code,
+      status_code: this.statusCode,
+    };
+  }
+}
+
+export class NotFoundError extends Error {
+  constructor({ cause, message, action }) {
+    super(message || "Recurso não encontrado.", { cause });
+    this.name = "NotFoundError";
+    this.action = action || "Verifique os parâmetros enviados.";
+    this.statusCode = 404;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
+
+export class ValidationError extends Error {
+  constructor({ cause, message, action }) {
+    super(message || "Informações inválidas.", { cause });
+    this.name = "ValidationError";
+    this.action = action || "Verifique as informações enviadas.";
+    this.statusCode = 400;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
     };
   }
 }
@@ -26,7 +62,7 @@ export class ServiceError extends Error {
     this.message = message || "Erro no banco de dados ou query";
     this.name = "InternalServerError";
     this.action = "Entre em contato com o suporte.";
-    this.status_code = 503;
+    this.statusCode = 503;
   }
 
   toJSON() {
@@ -34,7 +70,7 @@ export class ServiceError extends Error {
       name: this.name,
       message: this.message,
       action: this.action,
-      status_code: this.status_code,
+      status_code: this.statusCode,
     };
   }
 }
