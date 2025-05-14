@@ -127,7 +127,7 @@ describe("POST /api/v1/users", () => {
       expect(responseBody).toEqual({
         name: "ValidationError",
         message: "Username já cadastrado",
-        action: "Tente novamente com outro username.",
+        action: "Utilize outro username para essa operação.",
         status_code: 400,
       });
     });
