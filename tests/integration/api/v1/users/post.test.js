@@ -1,6 +1,8 @@
 import database from "infra/database.js";
 import orchestrator from "tests/orchestrator";
 import { version as uuidVersion } from "uuid";
+import user from "models/user.js";
+import password from "models/password.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -30,13 +32,26 @@ describe("POST /api/v1/users", () => {
         id: responseBody.id,
         username: "eduardo",
         email: "zezimdamanga@mail.com",
-        password: "123456",
+        password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
       expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
+
+      const userFromDatabase = await user.findUserByUsername("eduardo");
+      const isSamePassword = await password.compare(
+        "123456",
+        userFromDatabase.password,
+      );
+      const wrongPassword = await password.compare(
+        "wrong_password",
+        userFromDatabase.password,
+      );
+
+      expect(isSamePassword).toBe(true);
+      expect(wrongPassword).toBe(false);
     });
 
     test("With duplicated 'email'", async () => {
@@ -112,7 +127,7 @@ describe("POST /api/v1/users", () => {
       expect(responseBody).toEqual({
         name: "ValidationError",
         message: "Username já cadastrado",
-        action: "Tente novamente com outro username.",
+        action: "Utilize outro username para essa operação.",
         status_code: 400,
       });
     });
