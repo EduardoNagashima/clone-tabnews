@@ -173,7 +173,7 @@ describe("PATCH /api/v1/users/[username]", () => {
     test("With unique 'email'", async () => {
       const user = await orchestrator.createUser({
         email: "uniqueEmail@mail.com",
-      })
+      });
 
       const response = await fetch(
         `http://localhost:3000/api/v1/users/${user.username}`,
@@ -208,7 +208,7 @@ describe("PATCH /api/v1/users/[username]", () => {
 
     test("With new 'password'", async () => {
       const userCreated = await orchestrator.createUser({
-        password: "newPassword"
+        password: "newPassword",
       });
 
       const response = await fetch(
@@ -241,7 +241,9 @@ describe("PATCH /api/v1/users/[username]", () => {
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
       expect(responseBody.created_at > responseBody.updated_at).toBe(false);
 
-      const userFromDatabase = await user.findUserByUsername(userCreated.username);
+      const userFromDatabase = await user.findUserByUsername(
+        userCreated.username,
+      );
       const isSamePassword = await password.compare(
         "newPassword2",
         userFromDatabase.password,
