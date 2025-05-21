@@ -11,22 +11,14 @@ beforeAll(async () => {
 describe("GET /api/v1/users/[username]", () => {
   describe("Anonymous user", () => {
     test("With exact case match", async () => {
-      const user = {
+      await orchestrator.createUser({
         username: "eduardo",
         password: "123456",
         email: "zezimdamanga@mail.com",
-      };
-
-      await fetch("http://localhost:3000/api/v1/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
       });
 
       const response = await fetch(
-        `http://localhost:3000/api/v1/users/${user.username}`,
+        `http://localhost:3000/api/v1/users/eduardo`,
       );
 
       const responseBody = await response.json();
@@ -34,8 +26,8 @@ describe("GET /api/v1/users/[username]", () => {
       expect(response.status).toBe(200);
       expect(responseBody).toEqual({
         id: responseBody.id,
-        username: user.username,
-        email: user.email,
+        username: "eduardo",
+        email: "zezimdamanga@mail.com",
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
@@ -46,22 +38,14 @@ describe("GET /api/v1/users/[username]", () => {
     });
 
     test("With case mismatch", async () => {
-      const user = {
-        username: "eduardo",
+      await orchestrator.createUser({
+        username: "mismatchUser",
         password: "123456",
-        email: "zezimdamanga@mail.com",
-      };
-
-      await fetch("http://localhost:3000/api/v1/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
+        email: "mismatchUser@mail.com",
       });
 
       const response = await fetch(
-        "http://localhost:3000/api/v1/users/EdUaRdO",
+        "http://localhost:3000/api/v1/users/MiSmatchUser",
       );
 
       const responseBody = await response.json();
@@ -69,8 +53,8 @@ describe("GET /api/v1/users/[username]", () => {
       expect(response.status).toBe(200);
       expect(responseBody).toEqual({
         id: responseBody.id,
-        username: user.username,
-        email: user.email,
+        username: "mismatchUser",
+        email: "mismatchUser@mail.com",
         password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
