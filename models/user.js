@@ -158,10 +158,42 @@ async function update(username, userInputValues) {
   }
 }
 
+async function findUserByEmail(email) {
+  const userFound = await runSelectQuery(email);
+
+  return userFound;
+
+  async function runSelectQuery(email) {
+    const result = await database.query({
+      text: `
+        SELECT 
+          *
+        FROM 
+          users 
+        WHERE 
+          LOWER(email) = LOWER($1) 
+        LIMIT 
+          1
+        ;`,
+      values: [email],
+    });
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError({
+        message: "Email não encontrado",
+        action: "Verifique se o email está digitado corretamente",
+      });
+    }
+
+    return result.rows[0];
+  }
+}
+
 const user = {
   create,
   findUserByUsername,
   update,
+  findUserByEmail,
 };
 
 export default user;
