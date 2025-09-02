@@ -2,6 +2,35 @@ import database from "infra/database";
 import password from "models/password";
 import { ValidationError, NotFoundError } from "infra/errors";
 
+async function findOneById(id) {
+  const userFound = await runSelectQuery(id);
+  return userFound;
+
+  async function runSelectQuery(id) {
+    const result = await database.query({
+      text: `
+        SELECT 
+          *
+        FROM 
+          users 
+        WHERE 
+          id = $1 
+        LIMIT 
+          1
+        ;`,
+      values: [id],
+    });
+
+    if (result.rowCount === 0)
+      throw new NotFoundError({
+        message: "Usuário não possui sessão ativa.",
+        action: "Verifique se este usuário está logado e tente novamente.",
+      });
+
+    return result.rows[0];
+  }
+}
+
 async function validateUniqueUsername(username) {
   const result = await database.query({
     text: `
@@ -194,6 +223,7 @@ const user = {
   findUserByUsername,
   update,
   findUserByEmail,
+  findOneById,
 };
 
 export default user;
