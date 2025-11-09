@@ -14,8 +14,6 @@ async function send(mailOptions) {
   await transporter.sendMail(mailOptions);
 }
 
-console.log(process.env.EMAIL_SMTP_PORT);
-
 const email = {
   send,
 };
