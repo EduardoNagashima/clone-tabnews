@@ -1,23 +1,29 @@
 import database from "infra/database";
 import email from "infra/email";
+import { NotFoundError } from "infra/errors";
 import webserver from "infra/webserver";
+import user from "./user";
 
 const EXPIRATION_IN_MILLISECONDS = 60 * 15 * 1000; // 15 minutes
 
-async function findOneByUserId(userId) {
-  const result = runSelectQuery(userId);
+async function findOneByValidToken(token) {
+  const result = runSelectQuery(token);
   return result;
 
-  async function runSelectQuery(userId) {
+  async function runSelectQuery(token) {
     const result = await database.query({
       text: `
       SELECT * FROM 
         user_activation_tokens
       WHERE 
-        user_id = $1
+        id = $1
+      AND 
+        expires_at > NOW()
+      AND 
+        used_at IS NULL
       LIMIT 1;
     `,
-      values: [userId],
+      values: [token],
     });
 
     return result.rows[0];
@@ -42,6 +48,12 @@ async function create(userId) {
       values: [userId, expiresAt],
     });
 
+    if (result.rows.length === 0) {
+      throw new NotFoundError(
+        "Error: não foi possível criar o token de ativação valido.",
+      );
+    }
+
     return result.rows[0];
   }
 }
@@ -60,10 +72,40 @@ Equipe Dudu Gameplay,`,
   });
 }
 
+async function markTokenAsUsed(activationTokenId) {
+  const token = await runUpdateQuery(activationTokenId);
+  return token;
+
+  async function runUpdateQuery(id) {
+    const result = await database.query({
+      text: `
+      UPDATE 
+        user_activation_tokens 
+      SET
+        updated_at = timezone('utc', now()),
+        used_at = timezone('utc', now())
+      WHERE
+        id = $1
+      RETURNING *;
+    `,
+      values: [id],
+    });
+
+    return result.rows[0];
+  }
+}
+
+async function activateUserByUserId(userId) {
+  const activatedUser = await user.setFeatures(userId, ["create:session"]);
+  return activatedUser;
+}
+
 const activation = {
   sendEmailToUser,
   create,
-  findOneByUserId,
+  findOneByValidToken,
+  markTokenAsUsed,
+  activateUserByUserId,
 };
 
 export default activation;

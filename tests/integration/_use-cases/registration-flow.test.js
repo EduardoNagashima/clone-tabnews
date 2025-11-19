@@ -1,4 +1,6 @@
+import webserver from "infra/webserver";
 import activation from "models/activation";
+import user from "models/user";
 import orchestrator from "tests/orchestrator";
 
 beforeAll(async () => {
@@ -10,6 +12,7 @@ beforeAll(async () => {
 
 describe("Use case: Registration flow (all successful)", () => {
   let createUserResponseBody;
+  let token;
 
   test("Create user account", async () => {
     const createUserResponse = await fetch(
@@ -45,18 +48,38 @@ describe("Use case: Registration flow (all successful)", () => {
   test("Receive activation email", async () => {
     const lastEmail = await orchestrator.getLastEmail();
 
-    const activationToken = await activation.findOneByUserId(
-      createUserResponseBody.id,
-    );
+    token = orchestrator.extractUUID(lastEmail.text);
 
+    const activationToken = await activation.findOneByValidToken(token);
+
+    expect(lastEmail.text).toContain(
+      `${webserver.origin}/cadastro/ativar/${token}`,
+    );
     expect(lastEmail.sender).toBe("<contato@mail.com.br>");
     expect(lastEmail.recipients[0]).toBe("<registration.flow@mail.com>");
     expect(lastEmail.subject).toBe("Ative seu cadastro");
     expect(lastEmail.text).toContain("RegistrationFlow");
     expect(lastEmail.text).toContain(activationToken.id);
+    expect(activationToken.user_id).toBe(createUserResponseBody.id);
+    expect(activationToken.used_at).toBe(null);
   });
 
-  test("Active account", async () => {});
+  test("Active account", async () => {
+    const activationResponse = await fetch(
+      `http://localhost:3000/api/v1/activations/${token}`,
+      {
+        method: "PATCH",
+      },
+    );
+
+    expect(activationResponse.status).toBe(200);
+    const activationResponseBody = await activationResponse.json();
+
+    expect(Date.parse(activationResponseBody.used_at)).not.toBeNaN();
+
+    const activatedUser = await user.findOneByUsername("RegistrationFlow");
+    expect(activatedUser.features).toEqual(["create:session"]);
+  });
 
   test("Login", async () => {});
 

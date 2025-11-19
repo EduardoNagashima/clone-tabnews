@@ -244,7 +244,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
       expect(responseBody.created_at > responseBody.updated_at).toBe(false);
 
-      const userFromDatabase = await user.findUserByUsername(
+      const userFromDatabase = await user.findOneByUsername(
         userCreated.username,
       );
       const isSamePassword = await password.compare(
