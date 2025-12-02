@@ -54,6 +54,25 @@ export class UnauthorizedError extends Error {
   }
 }
 
+export class ForbiddenError extends Error {
+  constructor({ cause, message, action }) {
+    super(message || "Usuário não autenticado.", { cause });
+    this.name = "ForbiddenError";
+    this.action =
+      action || "Verifique as features necessárias antes de continuar.";
+    this.statusCode = 403;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
+
 export class ValidationError extends Error {
   constructor({ cause, message, action }) {
     super(message || "Informações inválidas.", { cause });
