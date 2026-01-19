@@ -9,6 +9,7 @@ import {
 import * as cookie from "cookie";
 import session from "models/session";
 import user from "models/user";
+import authorization from "models/authorization";
 
 function onNoMatchHandler(request, response) {
   const publicErrorObject = new MethodNotAllowedError();
@@ -92,8 +93,9 @@ async function injectAnonymousUser(request) {
 
 function canRequest(feature) {
   return function canRequestMiddleware(request, response, next) {
-    const user = request.context.user;
-    if (user.features.includes(feature)) {
+    const userTryingToRequest = request.context.user;
+
+    if (authorization.can(userTryingToRequest, feature)) {
       return next();
     }
 
